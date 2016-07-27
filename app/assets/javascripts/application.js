@@ -19,3 +19,5 @@
 //= require react_bootstrap
 //= require components
 //= require_tree .
+//= require moment
+//= require bootstrap-datetimepicker
