@@ -3,6 +3,7 @@ class EventsController < ApplicationController
     event = Event.new
     event.title = params[:title]
     event.description = params[:description]
+    event.moment = params[:moment]
 
     if event.save
       render json: {msg: "saved"}

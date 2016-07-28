@@ -1,11 +1,23 @@
-NewEventForm = React.createClass({
+var NewEventForm = React.createClass({
   getDefaultProps: function() {
     return {
-      selectedMoment: null
+      formattedMoment: ""
+    };
+  },
+
+  saveClickHandler: function() {
+    var formattedMoment = this.props.formattedMoment;
+    var onSaveClick = this.props.onSaveClick;
+
+    return function(e) {
+      e.preventDefault();
+      onSaveClick(formattedMoment);
     };
   },
 
   render: function() {
+    var formattedMoment = this.props.formattedMoment;
+
     return(
       <div className="event-form row">
         <div className="col-xs-7">
@@ -19,7 +31,7 @@ NewEventForm = React.createClass({
               <label>Event Description</label>
               <input className="form-control" name="description" type="text"/>
             </div>
-            <button className="btn btn-primary" type="submit">Save</button>
+            <button className="btn btn-primary" type="submit" onClick={this.saveClickHandler(formattedMoment)}>Save</button>
           </form>
         </div>
       </div>

@@ -41,9 +41,31 @@ var Calendar = React.createClass({
     return weeks;
   },
 
+  saveClickHandler: function(formattedMoment) {
+    var title = $('input[name=title]').val();
+    var description = $('input[name=description]').val();
+    var formData = {
+      description: description,
+      moment: formattedMoment,
+      title: title
+    };
+
+    $.ajax({
+      url: "/events",
+      method: "POST",
+      dataType: "json",
+      data: formData
+    }).done(function() {
+      console.log('saved');
+    }).fail(function(request,status,error) {
+      console.log(error);
+    });
+  },
+
   render: function() {
     var {selectedMoment, selectedMonth,selectedYear} = this.state;
     selectedMonth = this.props.months[selectedMonth];
+    var formattedMoment = selectedMoment.format("dddd, MMMM Do YYYY");
 
     var weeks = this.renderWeeks();
 
@@ -58,7 +80,7 @@ var Calendar = React.createClass({
         <DaysOfTheWeek />
         {weeks}
 
-        <NewEventForm selectedMoment={selectedMoment}/>
+        <NewEventForm formattedMoment={formattedMoment} onSaveClick={this.saveClickHandler} />
       </div>
     );
   }
