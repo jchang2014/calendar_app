@@ -27,20 +27,24 @@ var Calendar = React.createClass({
   },
 
   renderWeeks: function() {
-    var firstSunday = this.state.selectedMoment.clone().startOf("month").day("Sunday").date();
-    var lastSaturday = this.state.selectedMoment.clone().endOf("month").day("Saturday").date();
-    var month = this.state.selectedMonth;
-    var finished = false;
+    var firstDay = this.state.selectedMoment.clone().startOf("month").day("Sunday");
     var weeks = [];
 
-    until (finished == true) {
+    for (var i=0;i<6;i++) {
+      var key = "week_" + (i+1);
+      var day = firstDay.clone();
+      weeks.push(<Week key={key} firstDay={day} />);
+      firstDay.add(1,"w");
+    }
 
-    };
+    return weeks;
   },
 
   render: function() {
     var {selectedMonth,selectedYear} = this.state;
     selectedMonth = this.props.months[selectedMonth];
+
+    var weeks = this.renderWeeks();
 
     return(
       <div className="calendar-body">
@@ -51,6 +55,7 @@ var Calendar = React.createClass({
         </div>
 
         <DaysOfTheWeek />
+        {weeks}
       </div>
     );
   }
