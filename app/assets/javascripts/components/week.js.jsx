@@ -2,7 +2,8 @@ var Week = React.createClass({
   getDefaultProps: function() {
     return {
       firstDay: null,
-      key: null
+      key: null,
+      selectedMonth: null
     };
   },
 
@@ -12,7 +13,10 @@ var Week = React.createClass({
 
     for (var i=0;i<7;i++) {
       var date = day.date();
-      days.push(<span className="day col-xs-1">{date}</span>);
+      var sameMonth = this.props.selectedMonth == day.month();
+      var isCurrentDay = sameMonth && (date == moment().date());
+
+      days.push(<span className={"day col-xs-1" + (sameMonth ? "" : " grayed") + (isCurrentDay ? " current-day" : "")}>{date}</span>);
       day.add(1,"d");
     }
 

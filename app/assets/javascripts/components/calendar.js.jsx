@@ -28,12 +28,13 @@ var Calendar = React.createClass({
 
   renderWeeks: function() {
     var firstDay = this.state.selectedMoment.clone().startOf("month").day("Sunday");
+    var selectedMonth = this.state.selectedMonth;
     var weeks = [];
 
     for (var i=0;i<6;i++) {
       var key = "week_" + (i+1);
       var day = firstDay.clone();
-      weeks.push(<Week key={key} firstDay={day} />);
+      weeks.push(<Week key={key} firstDay={day} selectedMonth={selectedMonth}/>);
       firstDay.add(1,"w");
     }
 
