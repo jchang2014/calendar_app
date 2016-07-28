@@ -16,7 +16,7 @@ var Week = React.createClass({
       var sameMonth = this.props.selectedMonth == day.month();
       var isCurrentDay = sameMonth && (date == moment().date());
 
-      days.push(<span className={"day col-xs-1" + (sameMonth ? "" : " grayed") + (isCurrentDay ? " current-day" : "")}>{date}</span>);
+      days.push(<WeekDay date={date} isCurrentDay={isCurrentDay} sameMonth={sameMonth} />);
       day.add(1,"d");
     }
 
