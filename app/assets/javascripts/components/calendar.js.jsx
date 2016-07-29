@@ -16,14 +16,31 @@ var Calendar = React.createClass({
     var thisDay = today.day();
     var thisMonth = today.month();
     var thisYear = today.year();
+    var events = [];
 
     return {
+      events: events,
       selectedDate: thisDate,
       selectedDay: thisDay,
       selectedMoment: today,
       selectedMonth: thisMonth,
       selectedYear: thisYear
     };
+  },
+
+  getEvents: function(moment, callback) {
+    $.ajax({
+      url: "/events",
+      method: "GET",
+      dataType: "json",
+      data: {moment: moment}
+    }).done(function(data) {
+      callback(data);
+    });
+  },
+
+  updateEvents: function(events) {
+    this.setState({events: events});
   },
 
   renderWeeks: function() {
@@ -63,10 +80,10 @@ var Calendar = React.createClass({
   },
 
   render: function() {
-    var {selectedMoment, selectedMonth,selectedYear} = this.state;
+    var {events,selectedMoment, selectedMonth, selectedYear} = this.state;
     selectedMonth = this.props.months[selectedMonth];
     var formattedMoment = selectedMoment.format("dddd, MMMM Do YYYY");
-
+    this.getEvents(formattedMoment, this.updateEvents);
     var weeks = this.renderWeeks();
 
     return(
@@ -81,6 +98,8 @@ var Calendar = React.createClass({
         {weeks}
 
         <NewEventForm formattedMoment={formattedMoment} onSaveClick={this.saveClickHandler} />
+
+        <EventsList events={events} formattedMoment={formattedMoment} />
       </div>
     );
   }
