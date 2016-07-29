@@ -13,7 +13,7 @@ var Calendar = React.createClass({
   getInitialState: function() {
     var today = moment();
     var thisDay = today.day();
-    var events = this.refreshEvents();
+    var events = this.refreshEvents(today);
 
     return {
       events: events,
@@ -47,9 +47,8 @@ var Calendar = React.createClass({
     this.setState({showModal: false});
   },
 
-  refreshEvents: function() {
-    var selectedMoment = this.state ? this.state.selectedMoment : moment();
-    this.getEvents(selectedMoment.format("dddd, MMMM Do YYYY"), this.updateEvents);
+  refreshEvents: function(givenMoment) {
+    this.getEvents(givenMoment.format("dddd, MMMM Do YYYY"), this.updateEvents);
   },
 
   renderWeeks: function() {
@@ -67,7 +66,7 @@ var Calendar = React.createClass({
     return weeks;
   },
 
-  saveClickHandler: function(formattedMoment, action, callback = this.refreshEvents) {
+  saveClickHandler: function(formattedMoment, action, callback = this.refreshEvents(this.state.selectedMoment)) {
     var description, id, method, title, url;
     if (action == "create") {
       method = "POST";
@@ -115,14 +114,13 @@ var Calendar = React.createClass({
     var year = moment.year();
     var id = "#"+year+"_"+month+"_"+date;
 
-
     $(".current-day").removeClass("current-day");
     $(id).addClass("current-day");
     this.setState({
       selectedMoment: moment
     });
 
-    this.refreshEvents();
+    this.refreshEvents(moment);
   },
 
   updateEvents: function(events) {
