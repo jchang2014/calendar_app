@@ -12,20 +12,13 @@ var Calendar = React.createClass({
 
   getInitialState: function() {
     var today = moment();
-    var thisDate = today.date();
     var thisDay = today.day();
-    var thisMonth = today.month();
-    var thisYear = today.year();
     var events = this.refreshEvents();
 
     return {
       events: events,
-      selectedDate: thisDate,
-      selectedDay: thisDay,
       selectedEvent: null,
       selectedMoment: today,
-      selectedMonth: thisMonth,
-      selectedYear: thisYear,
       showModal: false
     };
   },
@@ -61,13 +54,13 @@ var Calendar = React.createClass({
 
   renderWeeks: function() {
     var firstDay = this.state.selectedMoment.clone().startOf("month").day("Sunday");
-    var selectedMonth = this.state.selectedMonth;
+    var selectedMoment = this.state.selectedMoment;
     var weeks = [];
 
     for (var i=0;i<6;i++) {
       var key = "week_" + (i+1);
       var day = firstDay.clone();
-      weeks.push(<Week key={key} firstDay={day} selectedMonth={selectedMonth}/>);
+      weeks.push(<Week key={key} firstDay={day} onSelect={this.selectHandler} selectedMoment={selectedMoment} />);
       firstDay.add(1,"w");
     }
 
@@ -116,12 +109,30 @@ var Calendar = React.createClass({
     });
   },
 
+  selectHandler: function(moment) {
+    var date = moment.date();
+    var month = moment.month();
+    var year = moment.year();
+    var id = "#"+year+"_"+month+"_"+date;
+
+
+    $(".current-day").removeClass("current-day");
+    $(id).addClass("current-day");
+    this.setState({
+      selectedMoment: moment
+    });
+
+    this.refreshEvents();
+  },
+
   updateEvents: function(events) {
     this.setState({events: events});
   },
 
   render: function() {
-    var {events, selectedEvent, selectedMoment, selectedMonth, selectedYear, showModal} = this.state;
+    var {events, selectedEvent, selectedMoment, showModal} = this.state;
+    var selectedMonth = selectedMoment.month();
+    var selectedYear = selectedMoment.year();
     selectedMonth = this.props.months[selectedMonth];
     var formattedMoment = selectedMoment.format("dddd, MMMM Do YYYY");
     var weeks = this.renderWeeks();
