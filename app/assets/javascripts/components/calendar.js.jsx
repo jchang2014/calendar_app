@@ -114,8 +114,8 @@ var Calendar = React.createClass({
     var year = moment.year();
     var id = "#"+year+"_"+month+"_"+date;
 
-    $(".current-day").removeClass("current-day");
-    $(id).addClass("current-day");
+    $(".selected-day").removeClass("selected-day");
+    $(id).addClass("selected-day");
     this.setState({
       selectedMoment: moment
     });
