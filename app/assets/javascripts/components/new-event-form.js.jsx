@@ -31,7 +31,7 @@ var NewEventForm = React.createClass({
               <label>Event Description</label>
               <input className="form-control" name="description" type="text"/>
             </div>
-            <button className="btn btn-primary" type="submit" onClick={this.saveClickHandler(formattedMoment)}>Save</button>
+            <button className="btn btn-primary save-btn" type="submit" onClick={this.saveClickHandler(formattedMoment)}>Save</button>
           </form>
         </div>
       </div>
