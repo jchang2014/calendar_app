@@ -6,14 +6,12 @@ var EventsList = React.createClass({
     };
   },
 
-  editClickHandler: function(key) {
+  editClickHandler: function(i) {
     var onEditClick = this.props.onEditClick;
-    var id = key.replace("event_", "");
-    id = Number(id);
 
     return function(e) {
       e.preventDefault();
-      onEditClick(id);
+      onEditClick(i);
     };
   },
 
@@ -26,7 +24,7 @@ var EventsList = React.createClass({
     // parse json into array
     // return li for each event in array
     events.map(function(event,i) {
-      var id = event.id
+      var id = event.id;
       var title = event.title;
       var description = event.description;
       var key = "event_" + id;
@@ -39,7 +37,7 @@ var EventsList = React.createClass({
               <p>{description}</p>
             </div>
             <div className="col-xs-2 col-xs-offset-1">
-              <button className="btn btn-primary edit-btn" onClick={self.editClickHandler(key)}>Edit</button>
+              <button className="btn btn-primary edit-btn" onClick={self.editClickHandler(i)}>Edit</button>
             </div>
           </div>
         </li>

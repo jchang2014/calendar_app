@@ -1,9 +1,27 @@
 var EditEventModal = React.createClass({
-  getDefaultProps: function() {
+  getInitialState: function() {
     return {
-      formattedMoment: "",
-      showModal: false
+      description: null,
+      title: null
     };
+  },
+
+  componentWillReceiveProps: function(newProps) {
+    var event = newProps.event;
+    if (event) {
+      this.setState({
+        description: event.description,
+        title: event.title
+      });
+    }
+  },
+
+  handleDescriptionChange: function(e) {
+    this.setState({description: e.target.value});
+  },
+
+  handleTitleChange: function(e) {
+    this.setState({title: e.target.value});
   },
 
   saveClickHandler: function(formattedMoment) {
@@ -18,6 +36,7 @@ var EditEventModal = React.createClass({
 
   render: function() {
     var {formattedMoment, hideModalHandler, showModal} = this.props;
+    var {title, description} = this.state;
 
     return(
       <ReactBootstrap.Modal bsSize="medium" show={showModal} onHide={hideModalHandler}>
@@ -33,18 +52,29 @@ var EditEventModal = React.createClass({
             <div className="row">
               <div className="form-group col-xs-6 col-xs-offset-3">
                 <label>Event Title</label>
-                <input className="form-control" name="title" type="text"/>
+                <input className="form-control"
+                  name="title"
+                  onChange={this.handleTitleChange}
+                  type="text"
+                  value={title}
+                />
               </div>
             </div>
             <div className="row">
               <div className="form-group col-xs-6 col-xs-offset-3">
                 <label>Event Description</label>
-                <input className="form-control" name="description" type="text"/>
+                <input className="form-control"
+                  name="description"
+                  onChange={this.handleDescriptionChange}
+                  type="text"
+                  value={description}
+                />
               </div>
             </div>
+            <br/>
             <div className="row">
-              <div className="col-xs-offset-3">
-                <button className="btn btn-primary save-btn"
+              <div className="col-xs-6 col-xs-offset-3">
+                <button className="btn btn-primary update-btn"
                   onClick={this.saveClickHandler(formattedMoment)}
                   type="submit"
                   value="update"

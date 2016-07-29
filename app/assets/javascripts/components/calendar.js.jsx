@@ -30,9 +30,11 @@ var Calendar = React.createClass({
     };
   },
 
-  editHandler: function(id) {
+  editHandler: function(i) {
+    var event = this.state.events[i];
+
     this.setState({
-      selectedEvent: id,
+      selectedEvent: event,
       showModal: true
     });
   },
@@ -109,7 +111,7 @@ var Calendar = React.createClass({
   },
 
   render: function() {
-    var {events,selectedMoment, selectedMonth, selectedYear, showModal} = this.state;
+    var {events, selectedEvent, selectedMoment, selectedMonth, selectedYear, showModal} = this.state;
     selectedMonth = this.props.months[selectedMonth];
     var formattedMoment = selectedMoment.format("dddd, MMMM Do YYYY");
     var weeks = this.renderWeeks();
@@ -129,7 +131,7 @@ var Calendar = React.createClass({
 
         <EventsList events={events} formattedMoment={formattedMoment} onEditClick={this.editHandler} />
 
-        <EditEventModal formattedMoment={formattedMoment} hideModalHandler={this.hideModalHandler} showModal={showModal} />
+        <EditEventModal event={selectedEvent} formattedMoment={formattedMoment} hideModalHandler={this.hideModalHandler} showModal={showModal} />
       </div>
     );
   }
