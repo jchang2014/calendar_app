@@ -68,9 +68,18 @@ var Calendar = React.createClass({
     return weeks;
   },
 
-  saveClickHandler: function(formattedMoment, callback = this.refreshEvents) {
-    var title = $(".new-event-form input[name=title]").val();
-    var description = $(".new-event-form input[name=description]").val();
+  saveClickHandler: function(formattedMoment, action, callback = this.refreshEvents) {
+    var description, method, title;
+    if (action == "create") {
+      method = "POST";
+      title = $(".new-event-form input[name=title]").val();
+      description = $(".new-event-form input[name=description]").val();
+    } else {
+      method = "PATCH";
+      title = $(".edit-event-form input[name=title]").val();
+      description = $(".edit-event-form input[name=title").val();
+    }
+
     var formData = {
       description: description,
       moment: formattedMoment,
@@ -79,7 +88,7 @@ var Calendar = React.createClass({
 
     $.ajax({
       url: "/events",
-      method: "POST",
+      method: method,
       dataType: "json",
       data: formData
     }).done(function() {
@@ -123,7 +132,7 @@ var Calendar = React.createClass({
           </ReactBootstrap.Modal.Header>
 
           <ReactBootstrap.Modal.Body>
-            <form>
+            <form className="">
               <div className="row">
                 <div className="form-group col-xs-6 col-xs-offset-3">
                   <label>Event Title</label>

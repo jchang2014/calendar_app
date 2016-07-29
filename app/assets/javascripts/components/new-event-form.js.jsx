@@ -5,13 +5,13 @@ var NewEventForm = React.createClass({
     };
   },
 
-  saveClickHandler: function() {
-    var formattedMoment = this.props.formattedMoment;
+  saveClickHandler: function(formattedMoment) {
     var onSaveClick = this.props.onSaveClick;
 
     return function(e) {
       e.preventDefault();
-      onSaveClick(formattedMoment);
+      var action = e.target.value;
+      onSaveClick(formattedMoment, action);
     };
   },
 
@@ -31,7 +31,11 @@ var NewEventForm = React.createClass({
               <label>Event Description</label>
               <input className="form-control" name="description" type="text"/>
             </div>
-            <button className="btn btn-primary save-btn" type="submit" onClick={this.saveClickHandler(formattedMoment)}>Save</button>
+            <button className="btn btn-primary save-btn"
+              onClick={this.saveClickHandler(formattedMoment)}
+              type="submit"
+              value="create"
+            >Save</button>
           </form>
         </div>
       </div>
