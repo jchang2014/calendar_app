@@ -16,4 +16,16 @@ class EventsController < ApplicationController
       render json: {msg: "error"}
     end
   end
+
+  def update
+    event = Event.find(params[:id])
+    event.title = params[:title]
+    event.description = params[:description]
+
+    if event.save
+      render json: {msg: "saved"}
+    else
+      render json: {msg: "error"}
+    end
+  end
 end
