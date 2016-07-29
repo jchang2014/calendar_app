@@ -22,6 +22,7 @@ var Calendar = React.createClass({
       events: events,
       selectedDate: thisDate,
       selectedDay: thisDay,
+      selectedEvent: null,
       selectedMoment: today,
       selectedMonth: thisMonth,
       selectedYear: thisYear,
@@ -30,7 +31,10 @@ var Calendar = React.createClass({
   },
 
   editHandler: function(id) {
-    console.log(id);
+    this.setState({
+      selectedEvent: id,
+      showModal: true
+    });
   },
 
   getEvents: function(moment, callback) {
@@ -123,7 +127,7 @@ var Calendar = React.createClass({
 
         <NewEventForm formattedMoment={formattedMoment} onSaveClick={this.saveClickHandler} />
 
-        <EventsList events={events} formattedMoment={formattedMoment} onEdit={this.editHandler} />
+        <EventsList events={events} formattedMoment={formattedMoment} onEditClick={this.editHandler} />
 
         <EditEventModal formattedMoment={formattedMoment} hideModalHandler={this.hideModalHandler} showModal={showModal} />
       </div>
