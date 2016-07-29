@@ -21,11 +21,11 @@ var EventsList = React.createClass({
       listEvents.push(
         <li className="list-group-item col-xs-9" key={key}>
           <div className="row">
-            <div className="col-xs-10">
+            <div className="col-xs-9">
               <b>{title}</b>
               <p>{description}</p>
             </div>
-            <div className="col-xs-2">
+            <div className="col-xs-2 col-xs-offset-1">
               <button className="btn btn-primary edit-btn">Edit</button>
             </div>
           </div>

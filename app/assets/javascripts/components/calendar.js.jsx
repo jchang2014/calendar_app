@@ -16,7 +16,7 @@ var Calendar = React.createClass({
     var thisDay = today.day();
     var thisMonth = today.month();
     var thisYear = today.year();
-    var events = [];
+    var events = this.refreshEvents();
 
     return {
       events: events,
@@ -43,6 +43,11 @@ var Calendar = React.createClass({
     this.setState({events: events});
   },
 
+  refreshEvents: function() {
+    var selectedMoment = this.state ? this.state.selectedMoment : moment();
+    this.getEvents(selectedMoment.format("dddd, MMMM Do YYYY"), this.updateEvents);
+  },
+
   renderWeeks: function() {
     var firstDay = this.state.selectedMoment.clone().startOf("month").day("Sunday");
     var selectedMonth = this.state.selectedMonth;
@@ -58,9 +63,9 @@ var Calendar = React.createClass({
     return weeks;
   },
 
-  saveClickHandler: function(formattedMoment) {
-    var title = $('input[name=title]').val();
-    var description = $('input[name=description]').val();
+  saveClickHandler: function(formattedMoment, callback = this.refreshEvents) {
+    var title = $("input[name=title]").val();
+    var description = $("input[name=description]").val();
     var formData = {
       description: description,
       moment: formattedMoment,
@@ -73,7 +78,7 @@ var Calendar = React.createClass({
       dataType: "json",
       data: formData
     }).done(function() {
-      console.log('saved');
+      callback();
     }).fail(function(request,status,error) {
       console.log(error);
     });
@@ -83,7 +88,6 @@ var Calendar = React.createClass({
     var {events,selectedMoment, selectedMonth, selectedYear} = this.state;
     selectedMonth = this.props.months[selectedMonth];
     var formattedMoment = selectedMoment.format("dddd, MMMM Do YYYY");
-    this.getEvents(formattedMoment, this.updateEvents);
     var weeks = this.renderWeeks();
 
     return(
