@@ -1,5 +1,3 @@
-== Calendar App
-
 # Setup:
 
 ## If you dont have ruby:
