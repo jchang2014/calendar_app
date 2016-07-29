@@ -64,8 +64,8 @@ var Calendar = React.createClass({
   },
 
   saveClickHandler: function(formattedMoment, callback = this.refreshEvents) {
-    var title = $("input[name=title]").val();
-    var description = $("input[name=description]").val();
+    var title = $(".new-event-form input[name=title]").val();
+    var description = $(".new-event-form input[name=description]").val();
     var formData = {
       description: description,
       moment: formattedMoment,

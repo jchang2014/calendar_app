@@ -19,7 +19,7 @@ var NewEventForm = React.createClass({
     var formattedMoment = this.props.formattedMoment;
 
     return(
-      <div className="event-form row">
+      <div className="new-event-form row">
         <div className="col-xs-7">
           <h3>Create a new event</h3>
           <form>
