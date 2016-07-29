@@ -24,8 +24,13 @@ var Calendar = React.createClass({
       selectedDay: thisDay,
       selectedMoment: today,
       selectedMonth: thisMonth,
-      selectedYear: thisYear
+      selectedYear: thisYear,
+      showModal: false
     };
+  },
+
+  editHandler: function(id) {
+    console.log(id);
   },
 
   getEvents: function(moment, callback) {
@@ -39,8 +44,8 @@ var Calendar = React.createClass({
     });
   },
 
-  updateEvents: function(events) {
-    this.setState({events: events});
+  hideModalHandler: function() {
+    this.setState({showModal: false});
   },
 
   refreshEvents: function() {
@@ -84,8 +89,12 @@ var Calendar = React.createClass({
     });
   },
 
+  updateEvents: function(events) {
+    this.setState({events: events});
+  },
+
   render: function() {
-    var {events,selectedMoment, selectedMonth, selectedYear} = this.state;
+    var {events,selectedMoment, selectedMonth, selectedYear, showModal} = this.state;
     selectedMonth = this.props.months[selectedMonth];
     var formattedMoment = selectedMoment.format("dddd, MMMM Do YYYY");
     var weeks = this.renderWeeks();
@@ -103,7 +112,33 @@ var Calendar = React.createClass({
 
         <NewEventForm formattedMoment={formattedMoment} onSaveClick={this.saveClickHandler} />
 
-        <EventsList events={events} formattedMoment={formattedMoment} />
+        <EventsList events={events} formattedMoment={formattedMoment} onEdit={this.editHandler} />
+
+        <ReactBootstrap.Modal bsSize="medium" show={showModal} onHide={this.hideModalHandler}>
+          <ReactBootstrap.Modal.Header>
+            <button type="button" className="close" aria-hidden="true" onClick={this.hideModalHandler}>&times;</button>
+            <div className="row text-center">
+              <h3>Edit this event</h3>
+            </div>
+          </ReactBootstrap.Modal.Header>
+
+          <ReactBootstrap.Modal.Body>
+            <form>
+              <div className="row">
+                <div className="form-group col-xs-6 col-xs-offset-3">
+                  <label>Event Title</label>
+                  <input className="form-control" name="title" type="text"/>
+                </div>
+              </div>
+              <div className="row">
+                <div className="form-group col-xs-6 col-xs-offset-3">
+                  <label>Event Description</label>
+                  <input className="form-control" name="description" type="text"/>
+                </div>
+              </div>
+            </form>
+          </ReactBootstrap.Modal.Body>
+        </ReactBootstrap.Modal>
       </div>
     );
   }
