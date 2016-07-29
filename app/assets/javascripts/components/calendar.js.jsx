@@ -74,10 +74,12 @@ var Calendar = React.createClass({
       method = "POST";
       title = $(".new-event-form input[name=title]").val();
       description = $(".new-event-form input[name=description]").val();
-    } else {
+    } else if (action == "update") {
       method = "PATCH";
       title = $(".edit-event-form input[name=title]").val();
       description = $(".edit-event-form input[name=title").val();
+    } else {
+      console.log("action error");
     }
 
     var formData = {
@@ -123,31 +125,7 @@ var Calendar = React.createClass({
 
         <EventsList events={events} formattedMoment={formattedMoment} onEdit={this.editHandler} />
 
-        <ReactBootstrap.Modal bsSize="medium" show={showModal} onHide={this.hideModalHandler}>
-          <ReactBootstrap.Modal.Header>
-            <button type="button" className="close" aria-hidden="true" onClick={this.hideModalHandler}>&times;</button>
-            <div className="row text-center">
-              <h3>Edit this event</h3>
-            </div>
-          </ReactBootstrap.Modal.Header>
-
-          <ReactBootstrap.Modal.Body>
-            <form className="">
-              <div className="row">
-                <div className="form-group col-xs-6 col-xs-offset-3">
-                  <label>Event Title</label>
-                  <input className="form-control" name="title" type="text"/>
-                </div>
-              </div>
-              <div className="row">
-                <div className="form-group col-xs-6 col-xs-offset-3">
-                  <label>Event Description</label>
-                  <input className="form-control" name="description" type="text"/>
-                </div>
-              </div>
-            </form>
-          </ReactBootstrap.Modal.Body>
-        </ReactBootstrap.Modal>
+        <EditEventModal formattedMoment={formattedMoment} hideModalHandler={this.hideModalHandler} showModal={showModal} />
       </div>
     );
   }
