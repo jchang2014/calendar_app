@@ -2,6 +2,7 @@ var EditEventModal = React.createClass({
   getInitialState: function() {
     return {
       description: null,
+      id: null,
       title: null
     };
   },
@@ -11,6 +12,7 @@ var EditEventModal = React.createClass({
     if (event) {
       this.setState({
         description: event.description,
+        id: event.id,
         title: event.title
       });
     }
@@ -36,7 +38,7 @@ var EditEventModal = React.createClass({
 
   render: function() {
     var {formattedMoment, hideModalHandler, showModal} = this.props;
-    var {title, description} = this.state;
+    var {description, id, title} = this.state;
 
     return(
       <ReactBootstrap.Modal bsSize="medium" show={showModal} onHide={hideModalHandler}>
@@ -48,7 +50,8 @@ var EditEventModal = React.createClass({
         </ReactBootstrap.Modal.Header>
 
         <ReactBootstrap.Modal.Body>
-          <form className="">
+          <form className="edit-event-form">
+            <input name="id" type="hidden" value={id} />
             <div className="row">
               <div className="form-group col-xs-6 col-xs-offset-3">
                 <label>Event Title</label>

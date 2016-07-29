@@ -75,27 +75,32 @@ var Calendar = React.createClass({
   },
 
   saveClickHandler: function(formattedMoment, action, callback = this.refreshEvents) {
-    var description, method, title;
+    var description, id, method, title, url;
     if (action == "create") {
       method = "POST";
       title = $(".new-event-form input[name=title]").val();
       description = $(".new-event-form input[name=description]").val();
+      id = null;
+      url = "/events";
     } else if (action == "update") {
       method = "PATCH";
       title = $(".edit-event-form input[name=title]").val();
-      description = $(".edit-event-form input[name=title").val();
+      description = $(".edit-event-form input[name=description").val();
+      id = $(".edit-event-form input[name=id]").val();
+      url = "/events/" + id;
     } else {
       console.log("action error");
     }
 
     var formData = {
       description: description,
+      id: id,
       moment: formattedMoment,
       title: title
     };
 
     $.ajax({
-      url: "/events",
+      url: url,
       method: method,
       dataType: "json",
       data: formData
@@ -103,6 +108,11 @@ var Calendar = React.createClass({
       callback();
     }).fail(function(request,status,error) {
       console.log(error);
+    });
+
+    this.setState({
+      selectedEvent: null,
+      showModal: false
     });
   },
 
@@ -131,7 +141,12 @@ var Calendar = React.createClass({
 
         <EventsList events={events} formattedMoment={formattedMoment} onEditClick={this.editHandler} />
 
-        <EditEventModal event={selectedEvent} formattedMoment={formattedMoment} hideModalHandler={this.hideModalHandler} showModal={showModal} />
+        <EditEventModal event={selectedEvent}
+          formattedMoment={formattedMoment}
+          hideModalHandler={this.hideModalHandler}
+          onSaveClick={this.saveClickHandler}
+          showModal={showModal}
+        />
       </div>
     );
   }
