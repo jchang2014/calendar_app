@@ -33,6 +33,7 @@ var Calendar = React.createClass({
   },
 
   getEvents: function(moment, callback) {
+
     $.ajax({
       url: "/events",
       method: "GET",
@@ -47,7 +48,8 @@ var Calendar = React.createClass({
     this.setState({showModal: false});
   },
 
-  refreshEvents: function(givenMoment) {
+  refreshEvents: function() {
+    var givenMoment = this.state ? this.state.selectedMoment : moment();
     this.getEvents(givenMoment.format("dddd, MMMM Do YYYY"), this.updateEvents);
   },
 
@@ -66,7 +68,7 @@ var Calendar = React.createClass({
     return weeks;
   },
 
-  saveClickHandler: function(formattedMoment, action, callback = this.refreshEvents(this.state.selectedMoment)) {
+  saveClickHandler: function(formattedMoment, action, callback = this.refreshEvents) {
     var description, id, method, title, url;
     if (action == "create") {
       method = "POST";
@@ -113,6 +115,7 @@ var Calendar = React.createClass({
     var month = moment.month();
     var year = moment.year();
     var id = "#"+year+"_"+month+"_"+date;
+    var formattedMoment = moment.format("dddd, MMMM Do YYYY");
 
     $(".selected-day").removeClass("selected-day");
     $(id).addClass("selected-day");
@@ -120,7 +123,7 @@ var Calendar = React.createClass({
       selectedMoment: moment
     });
 
-    this.refreshEvents(moment);
+    this.getEvents(formattedMoment, this.updateEvents);
   },
 
   updateEvents: function(events) {
