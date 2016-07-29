@@ -1,28 +1,31 @@
-== README
+== Calendar App
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+#Setup:
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+##If you dont have ruby:
+1. `brew install gpg` (checks security of rvm)
+2. `gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3`
+3. `\curl -sSL https://get.rvm.io | bash`
+4. `rvm install ruby-2.0.0-p481`
+5. `gem install bundler`
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+##Once you have ruby:
+1. `bundle install`
+2. `rake db:migrate`
+3. `rails s`
+4. open localhost:3000/ in browser
+
+
+
+Tech:
+
+* Ruby 2.0.0-p481
+
+* Rails 4.2.4
+
+* React-Rails
+
+* Bootstrap-Sass
+
+* MomentJS-Rails
